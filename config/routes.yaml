@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::indexAction
+#
+#print_your_name:
+#    path: /print-your-name
+#    controller: App\Controller\DefaultController::printDefaultNameAction
