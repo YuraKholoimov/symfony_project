@@ -1,0 +1,25 @@
+{% include 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path("request.list") }}">К списку</a>
+    <h1>Запрос: {{ request.title }}</h1>
+    <div>
+        <table>
+            <tbody>
+
+                <tr>
+                    <td>Сообщение</td>
+                    <td>{{ request.message }}</a></td>
+                </tr>
+                <tr>
+                    <td>Статус</td>
+                    <td>{{ request.status}}</td>
+                </tr>
+                <tr>
+                    <td>Дата создания</td>
+                    <td>{{ request.createAt.format('Y.m.d H:i:s') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
