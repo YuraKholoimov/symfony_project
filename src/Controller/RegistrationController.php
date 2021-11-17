@@ -16,8 +16,8 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/", name="app.registration")
      */
-    public function registrationAction(): Request
-    {
-        $userDTO = new userDto();
-    }
+//    public function registrationAction(): Request
+//    {
+//        $userDTO = new userDto();
+//    }
 }

@@ -9,34 +9,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     *
      * @Route("/", name="name")
-     *
      */
     public function indexAction(): Response
     {
         return new Response('This is my home page');
     }
-    /**
-     *
-     * @Route("/{name}", name="show-name")
-     */
-    public function showNameTwoAction($name): Response
-    {
-        return $this->render('base.html.twig', [
-            'name' => $name
-        ]);
-    }
+
+
+//    /**
+//     * @Route("/{name}", name="show-name")
+//     */
+//    public function showNameTwoAction($name): Response
+//    {
+//        return $this->render('base.html.twig', [
+//            'name' => $name
+//        ]);
+//    }
     /**
      *
      * @Route("/name/{name}", name="show-name")
      */
-    public function showNameAction($name): Response
-    {
-        return $this->render('Order/show.html.twig', [
-            'name' => $name
-        ]);
-    }
+//    public function showNameAction($name): Response
+//    {
+//        return $this->render('show.html.twig', [
+//            'name' => $name
+//        ]);
+//    }
 //    /**
 //     *
 //     * @Route("/print-your-name")
