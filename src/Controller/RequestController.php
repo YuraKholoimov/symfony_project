@@ -4,13 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Request;
+use App\Form\Type\RequestType;
 use App\Repository\RequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+# use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -38,8 +36,8 @@ class RequestController extends AbstractController
     {
         $request = $requestRepository->findById($id);
 
-        if(is_null($request))
-            throw new NotFoundHttpException("Запрос не найден");
+//        if(is_null($request))
+//            throw new NotFoundHttpException("Запрос не найден");
 
         return $this->render('request/show.html.twig', [
             'request' => $request
@@ -53,14 +51,10 @@ class RequestController extends AbstractController
     {
         $request = new Request("Новый запрос", "Новое сообщение");
 
-        $form = $this->createFormBuilder($request)
-            ->add('title', TextType::class)
-            ->add('message', TextareaType::class)
-            ->add('save', SubmitType::class, ['label' => 'Добавить'])
-            ->getForm();
+        $form = $this->createForm(RequestType::class, $request);
 
-        return $this->renderForm('request/add.html.twig', [
-            'adding_form' => $form,
+        return $this->renderForm('request/add.html.twig' , [
+            'form' => $form,
         ]);
     }
 

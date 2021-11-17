@@ -25,7 +25,7 @@ class Request
      */
     private string $message;
     /**
-     * @ORM\Column(name="status", type="smallint", options={"default" : 0})
+     * @ORM\Column(name="status", type="text", options={"default" : 0})
      */
     private int $status = 0;
     /**
