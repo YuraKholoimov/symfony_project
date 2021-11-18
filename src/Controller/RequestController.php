@@ -67,7 +67,7 @@ class RequestController extends AbstractController
 
         $form = $this->createForm(FormRequestType::class, $request);
 
-        return $this->render('request/add.html.twig' , [
+        return $this->renderForm('request/add.html.twig' , [
             'addingForm' => $form,
         ]);
     }
