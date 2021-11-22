@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Request;
+
+use App\DTO\RequestDTO;;
+use App\Entity\Request as RequestEntity;
 use App\Form\Type\FormRequestType;
 use App\Repository\RequestRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +19,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RequestController extends AbstractController
 {
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+
+        $this->entityManager = $entityManager;
+    }
+
      /**
      * @Route("/list", name="request.list")
      */
@@ -42,30 +55,44 @@ class RequestController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/show-adding-form", name="request.add.new")
-     */
-    public function showAddingRequestFormAction(): Response
-    {
-        $request = new Request("Новый запрос", "Новое сообщение");
-
-        $form = $this->createForm(FormRequestType::class, $request, [
-            'action' => $this->generateUrl('request.add')
-        ]);
-
-        return $this->renderForm('request/add.html.twig' , [
-            'addingForm' => $form,
-        ]);
-    }
-
+//    /**
+//     * @Route("/show-adding-form", name="request.add.new")
+//     */
+//    public function showAddingRequestFormAction(): Response
+//    {
+//        $request = new Request("Новый запрос", "Новое сообщение");
+//
+//        $form = $this->createForm(FormRequestType::class, $request, [
+//            'action' => $this->generateUrl('request.add')
+//        ]);
+//
+//        return $this->renderForm('request/add.html.twig' , [
+//            'addingForm' => $form,
+//        ]);
+//    }
     /**
      * @Route("/add", name="request.add")
      */
-    public function addRequestAction(): Response
-    {
-        $request = new Request("Новый запрос", "Новое сообщение");
 
-        $form = $this->createForm(FormRequestType::class, $request);
+    public function addRequestAction(Request $request): Response
+    {
+        $requestDTO = new RequestDTO();
+
+        $form = $this->createForm(FormRequestType::class, $requestDTO, [
+            "action" => $this->generateUrl("request.add")
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $requestEntity = RequestEntity::createFromDTO($requestDTO);
+            $this->entityManager->persist($requestEntity);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('request.show', [
+                "id" => $requestEntity->getId()
+            ]);
+        }
 
         return $this->renderForm('request/add.html.twig' , [
             'addingForm' => $form,
