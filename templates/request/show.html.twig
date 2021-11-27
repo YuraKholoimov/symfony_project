@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path("request.list") }}">К списку</a>
-    <h1>Запрос: {{ request.title }}</h1>
+    <a href="{{ path("request.list") }}" class="btn btn-secondary">К списку</a>
+    <h1>Запрос: {{ request.title }}<a href="{{  path('request.edit', {'id': request.id}) }}" class="btn btn-primary">Редактировать</a></h1>
     <div>
         <table>
             <tbody>

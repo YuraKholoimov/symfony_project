@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% form_theme addingForm 'bootstrap_5_layout.html.twig' %}
 {% block body %}
+    <a href="{{ path("request.list") }}" class="btn btn-secondary" >К списку</a>
     <h1>Добавить новый запрос</h1>
     <div>
         {{ form(addingForm) }}

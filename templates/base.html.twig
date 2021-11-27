@@ -21,6 +21,13 @@
 </head>
 <body>
 <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 nb-4 border-bottom">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="{{ path('app.registration') }}" class="nav-link"
+                >Регистрация</a>
+            </li>
+        </ul>
+    </header>
     {% block body %}
         {# Hello {{ name }} it's base page #}
     {% endblock %}

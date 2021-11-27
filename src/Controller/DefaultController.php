@@ -9,11 +9,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="name")
+     * @Route("/", name="homepage")
      */
     public function indexAction(): Response
     {
-        return new Response('This is my home page');
+        return $this->render("base.html.twig");
     }
 
 
@@ -26,10 +26,10 @@ class DefaultController extends AbstractController
 //            'name' => $name
 //        ]);
 //    }
-    /**
-     *
-     * @Route("/name/{name}", name="show-name")
-     */
+//    /**
+//     *
+//     * @Route("/name/{name}", name="show-name")
+//     */
 //    public function showNameAction($name): Response
 //    {
 //        return $this->render('show.html.twig', [

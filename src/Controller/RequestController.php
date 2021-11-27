@@ -55,21 +55,6 @@ class RequestController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route("/show-adding-form", name="request.add.new")
-//     */
-//    public function showAddingRequestFormAction(): Response
-//    {
-//        $request = new Request("Новый запрос", "Новое сообщение");
-//
-//        $form = $this->createForm(FormRequestType::class, $request, [
-//            'action' => $this->generateUrl('request.add')
-//        ]);
-//
-//        return $this->renderForm('request/add.html.twig' , [
-//            'addingForm' => $form,
-//        ]);
-//    }
     /**
      * @Route("/add", name="request.add")
      */
@@ -85,6 +70,38 @@ class RequestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $requestEntity = RequestEntity::createFromDTO($requestDTO);
+            $this->entityManager->persist($requestEntity);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('request.show', [
+                "id" => $requestEntity->getId()
+            ]);
+        }
+
+        return $this->renderForm('request/add.html.twig' , [
+            'addingForm' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="request.edit")
+     */
+    public function editAction(Request $request, int $id, RequestRepository $requestRepository): Response
+    {
+        $requestEntity = $requestRepository->findById($id);
+
+        $requestDTO = requestDTO::createFromEntity($requestEntity);
+
+
+        $form = $this->createForm(FormRequestType::class, $requestDTO, [
+            "action" => $this->generateUrl("request.add")
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $requestEntity->updateFromDTO(@$requestDTO);
             $requestEntity = RequestEntity::createFromDTO($requestDTO);
             $this->entityManager->persist($requestEntity);
             $this->entityManager->flush();

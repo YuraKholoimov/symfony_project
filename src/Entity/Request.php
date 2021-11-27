@@ -34,11 +34,22 @@ class Request
      */
     private DateTime $createAt;
 
-    public function __construct(string $title, string $message)
+    public function __construct(string $title, string $message, string $createdBy)
     {
         $this->title = $title;
         $this->message = $message;
         $this->createAt = new DateTime();
+        $this->createdBy = $createdBy;
+    }
+
+    public function getCreatedBy(): string
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(string $createdBy): void
+    {
+        $this->createdBy = $createdBy;
     }
 
     /**
@@ -48,6 +59,14 @@ class Request
     public static function createFromDTO(RequestDTO $dto): self
     {
         return new self($dto->getTitle(), $dto->getMessage());
+    }
+
+    public function updateFromDTO(RequestDTO $dto): self
+    {
+
+        $this->setTitle($dto->getTitle());
+        $this->setMessage($dto->getMessage());
+
     }
 
     public function getId(): ?int
